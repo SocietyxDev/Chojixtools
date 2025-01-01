@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Method Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000; /* Pure black background */
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #3b3f4a;
+            animation: fadeIn 1s ease-in-out;
+            padding: 30px;
+            border: 2px solid #ff6b6b;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #4a4f5a;
+            color: #fff;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #ff6b6b;
+            outline: none;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #f06595);
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #f06595, #ff6b6b);
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #333;
+            color: #fff;
+            border-radius: 5px;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+        }
+
+        .popup p {
+            font-size: 16px;
+        }
+
+        .popup button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .popup button:hover {
+            background: #f06595;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+    <script>
+        function showPopup(message) {
+            var popup = document.getElementById("popup");
+            var popupMessage = document.getElementById("popupMessage");
+            popupMessage.textContent = message;
+            popup.style.display = "block";
+        }
+
+        function hidePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            var form = event.target;
+            var formData = new FormData(form);
+            var method = formData.get("method");
+
+            if (method === "dualhook") {
+                showPopup("Dualhook is under maintenance! Keep updated.");
+                return;
+            }
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(result => {
+                showPopup("Directory created successfully!");
+                console.log(result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="title">Method Generator</div>
+    <div class="form-container">
+        <form action="/add_webhook" method="POST" onsubmit="submitForm(event);">
+            <input type="text" name="directory_name" placeholder="Directory Name">
+            <input type="url" name="webhook_url" placeholder="Webhook URL">
+            <input type="text" name="name" placeholder="Name Here">
+            <input type="text" name="thumbnail" placeholder="Thumbnail Here">
+            <select name="method">
+                <option value="dualhook">Dualhook (VERY, OP)</option>
+                <option value="normalhook">Normal Hook (OP)</option>
+            </select>
+            <button type="submit">Generate</button>
+            <button type="button" onclick="location.href='/hyperlink_generator'">Hyperlink (LinkHider) Generator</button>
+        </form>
+    </div>
+    <div id="popup" class="popup">
+        <h2>Notice</h2>
+        <p id="popupMessage"></p>
+        <button onclick="hidePopup()">Close</button>
+    </div>
+</body>
+</html>
