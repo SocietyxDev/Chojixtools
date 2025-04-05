@@ -9,25 +9,25 @@
         
         :root {
             --sidebar-width: 240px;
-            --sidebar-bg: rgba(10, 10, 18, 0.8); /* Glass black */
-            --sidebar-active: rgba(255, 51, 102, 0.2); /* Red tint */
+            --sidebar-bg: rgba(20, 20, 30, 0.95);
+            --sidebar-active: rgba(255, 51, 102, 0.3);
             --sidebar-text: #e2e8f0;
             --sidebar-icon: #94a3b8;
-            --sidebar-hover: rgba(255, 51, 102, 0.1); /* Subtle red hover */
-            --content-bg: rgba(10, 10, 18, 0.7); /* Slightly lighter glass */
-            --primary: #ff3366; /* Changed to red */
+            --sidebar-hover: rgba(255, 51, 102, 0.2);
+            --content-bg: rgba(15, 15, 25, 0.9);
+            --primary: #ff3366;
             --primary-hover: #e62e5c;
             --text-dark: #f8f9fa;
             --text-light: #adb5bd;
             --transition: all 0.2s ease;
-            --dark-bg: #0a0a12;
+            --dark-bg: #000000;
             --neon-red: #ff3366;
             --neon-glow: 0 0 10px var(--neon-red), 
                          0 0 20px var(--neon-red), 
                          0 0 30px var(--neon-red);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            --glass-backdrop: blur(10px);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --glass-backdrop: blur(12px);
         }
 
         * {
@@ -46,7 +46,7 @@
                 radial-gradient(circle at 75% 75%, rgba(255, 51, 102, 0.1) 0%, transparent 50%);
         }
 
-        /* Login Page Styles (unchanged) */
+        /* Login Page Styles */
         .login-container {
             display: flex;
             justify-content: center;
@@ -161,6 +161,7 @@
         /* Dashboard Styles */
         .dashboard {
             display: none;
+            background-color: var(--dark-bg);
         }
 
         /* Glass Theme Elements */
@@ -175,7 +176,7 @@
             box-shadow: var(--glass-shadow);
         }
 
-        /* Notification System */
+        /* Enhanced Notification System */
         .notification-container {
             position: fixed;
             bottom: 20px;
@@ -223,6 +224,13 @@
             justify-content: center;
             font-size: 0.7rem;
             font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .notification-popup {
@@ -230,8 +238,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 350px;
+            width: 400px;
             max-width: 90%;
+            max-height: 80vh;
             border-radius: 10px;
             z-index: 1001;
             display: none;
@@ -249,7 +258,7 @@
         }
 
         .notification-header {
-            padding: 15px 20px;
+            padding: 18px 20px;
             background-color: var(--primary);
             color: white;
             font-weight: bold;
@@ -257,6 +266,7 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: var(--glass-border);
+            font-size: 1.1rem;
         }
 
         .notification-close {
@@ -274,8 +284,13 @@
         }
 
         .notification-item {
-            padding: 10px 0;
+            padding: 15px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .notification-item:hover {
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .notification-item:last-child {
@@ -284,13 +299,20 @@
 
         .notification-title {
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: var(--primary);
+            font-size: 1rem;
         }
 
         .notification-time {
             font-size: 0.8rem;
             color: var(--text-light);
+        }
+
+        .notification-message {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .notification-footer {
@@ -336,7 +358,7 @@
             display: block;
         }
 
-        /* Profile Dropdown Styles */
+        /* Enhanced Profile Dropdown */
         .profile-dropdown {
             position: relative;
             display: inline-block;
@@ -346,30 +368,31 @@
             display: none;
             position: absolute;
             right: 0;
-            top: 50px;
-            min-width: 160px;
-            z-index: 1;
-            border-radius: 6px;
+            top: 60px;
+            min-width: 200px;
+            z-index: 100;
+            border-radius: 8px;
             overflow: hidden;
+            transform-origin: top right;
         }
 
         .profile-menu.show {
             display: block;
-            animation: fadeIn 0.3s;
+            animation: scaleIn 0.2s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .profile-menu a {
             color: var(--text-dark);
-            padding: 12px 16px;
+            padding: 14px 20px;
             text-decoration: none;
             display: block;
             transition: var(--transition);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .profile-menu a:hover {
@@ -384,7 +407,7 @@
             background-color: rgba(255, 51, 102, 0.3);
         }
 
-        /* Sidebar Styles */
+        /* Enhanced Sidebar Styles */
         .sidebar {
             width: var(--sidebar-width);
             color: var(--sidebar-text);
@@ -420,10 +443,17 @@
             margin-bottom: 5px;
             border-radius: 6px;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .nav-item:hover {
+            border-color: rgba(255, 51, 102, 0.3);
         }
 
         .nav-item.active {
             background-color: var(--sidebar-active);
+            border-color: var(--primary);
         }
 
         .nav-link {
@@ -484,23 +514,24 @@
         }
 
         .user-avatar {
-            width: 36px;
-            height: 36px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             object-fit: cover;
             cursor: pointer;
             border: 2px solid var(--primary);
             transition: var(--transition);
+            box-shadow: 0 0 15px rgba(255, 51, 102, 0.3);
         }
 
         .user-avatar:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.6);
         }
 
         /* Content Styles */
         .content {
-            background: rgba(10, 10, 18, 0.5);
+            background: rgba(15, 15, 25, 0.5);
             padding: 20px;
             border-radius: 10px;
             border: var(--glass-border);
@@ -533,6 +564,16 @@
                 font-size: 1.25rem;
                 color: var(--text-dark);
                 cursor: pointer;
+            }
+
+            .user-avatar {
+                width: 42px;
+                height: 42px;
+            }
+            
+            .notification-popup {
+                width: 90%;
+                max-width: 350px;
             }
         }
 
@@ -584,21 +625,7 @@
                 <button class="notification-close" id="notificationClose">&times;</button>
             </div>
             <div class="notification-content" id="notificationContent">
-                <div class="notification-item">
-                    <div class="notification-title">New Update Available</div>
-                    <div class="notification-time">2 hours ago</div>
-                    <div class="notification-message">Version 2.5.0 is now available with new features.</div>
-                </div>
-                <div class="notification-item">
-                    <div class="notification-title">Maintenance Scheduled</div>
-                    <div class="notification-time">1 day ago</div>
-                    <div class="notification-message">Server maintenance planned for tomorrow at 3 AM UTC.</div>
-                </div>
-                <div class="notification-item">
-                    <div class="notification-title">Welcome to IMMORTAL</div>
-                    <div class="notification-time">3 days ago</div>
-                    <div class="notification-message">Thank you for joining our community!</div>
-                </div>
+                <!-- Notification items will be inserted here by JavaScript -->
             </div>
             <div class="notification-footer">
                 <button class="notification-nav-btn" id="prevNotification" disabled>
@@ -700,23 +727,28 @@
         const notificationBadge = document.getElementById('notificationBadge');
         const notificationContent = document.getElementById('notificationContent');
 
-        // Notification System
+        // Enhanced Notification System
         let currentNotificationIndex = 0;
         const notifications = [
             {
                 title: "New Update Available",
                 time: "2 hours ago",
-                message: "Version 2.5.0 is now available with new features."
+                message: "Version 2.5.0 is now available with new features and bug fixes. Check out the changelog for details!"
             },
             {
                 title: "Maintenance Scheduled",
                 time: "1 day ago",
-                message: "Server maintenance planned for tomorrow at 3 AM UTC."
+                message: "Server maintenance planned for tomorrow at 3 AM UTC. Expected downtime: 30 minutes."
             },
             {
                 title: "Welcome to IMMORTAL",
                 time: "3 days ago",
-                message: "Thank you for joining our community!"
+                message: "Thank you for joining our community! Get started by exploring the dashboard."
+            },
+            {
+                title: "Security Alert",
+                time: "Just now",
+                message: "We've detected a new security patch available. Please update your client as soon as possible."
             }
         ];
 
@@ -773,13 +805,23 @@
             if (currentNotificationIndex === notifications.length - 1) {
                 notificationBadge.textContent = '0';
                 notificationBadge.style.display = 'none';
+            } else {
+                notificationBadge.textContent = (notifications.length - currentNotificationIndex - 1).toString();
+                notificationBadge.style.display = 'flex';
             }
         }
 
-        // Profile Dropdown
+        // Enhanced Profile Dropdown
         userAvatar.addEventListener('click', function(e) {
             e.stopPropagation();
             profileMenu.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.profile-dropdown') && profileMenu.classList.contains('show')) {
+                profileMenu.classList.remove('show');
+            }
         });
 
         // Logout functionality
@@ -914,6 +956,7 @@
             checkAuthResponse();
             initDiscordLogin();
             initMobileMenu();
+            updateNotificationDisplay(); // Initialize notification display
         }
 
         // Start the app
